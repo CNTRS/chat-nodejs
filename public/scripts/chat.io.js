@@ -220,7 +220,7 @@
 			$.tmpl(tmplt.room, { room: name }).appendTo('.chat-rooms ul');
 			// if announce is true, show a message about this room
 			if(announce){
-				insertMessage(serverDisplayName, 'The room `' + name + '` created...', true, false, true);
+				insertMessage(serverDisplayName, 'Room \'' + name + '\' created', true, false, true);
 			}
 		}
 	}
@@ -230,7 +230,7 @@
 		$('.chat-rooms ul li[data-roomId="' + name + '"]').remove();
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage(serverDisplayName, 'The room `' + name + '` destroyed...', true, false, true);
+			insertMessage(serverDisplayName, 'Room \'' + name + '\' destroyed', true, false, true);
 		}
 	}
 
@@ -245,7 +245,7 @@
 
 		// if announce is true, show a message about this client
 		if(announce){
-			insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
+			insertMessage(serverDisplayName,'User \'' + client.nickname + '\' has joined the room', true, false, true);
 		}
 		$html.appendTo('.chat-clients ul')
 	}
@@ -256,7 +256,7 @@
 		
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
+			insertMessage(serverDisplayName,'User \'' +  client.nickname + '\' has left the room...', true, false, true);
 		}
 	}
 
