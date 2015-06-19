@@ -168,7 +168,7 @@
 			setCurrentRoom(data.room);
 			
 			// announce a welcome message
-			insertMessage(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
+			insertMessage(serverDisplayName, 'Welcome to the room: \'' + data.room + '\'', true, false, true);
 			$('.chat-clients ul').empty();
 			
 			// add the clients to the clients list
@@ -256,7 +256,7 @@
 		
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage(serverDisplayName,'User \'' +  client.nickname + '\' has left the room...', true, false, true);
+			insertMessage(serverDisplayName,'User \'' +  client.nickname + '\' has left the room', true, false, true);
 		}
 	}
 
@@ -270,7 +270,7 @@
 		if(room && room.length <= ROOM_MAX_LENGTH && room != currentRoom){
 			
 			// show room creating message
-			$('.chat-shadow').show().find('.content').html('Creating room: ' + room + '...');
+			$('.chat-shadow').show().find('.content').html('Creating room: \'' + room + '\'');
 			$('.chat-shadow').animate({ 'opacity': 1 }, 200);
 			
 			// unsubscribe from the current room
