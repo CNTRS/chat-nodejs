@@ -1,6 +1,10 @@
 {
 	"name": "Chat-nodeJS",
 	"version": "0.0.2",
+	"private": true,
+  	"scripts": {
+    	"start": "set PORT=8080 && node server.js"
+  	},
 	"dependencies": {
 		"express": "4.12",
 		"socket.io": "0.9.2"

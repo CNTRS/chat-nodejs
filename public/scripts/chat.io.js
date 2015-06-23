@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = 'http://localhost',
+		serverAddress ='http://147.84.144.109',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380',
 
@@ -37,6 +37,7 @@
 				'</li>'
 			].join("")
 		};
+		
 
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
