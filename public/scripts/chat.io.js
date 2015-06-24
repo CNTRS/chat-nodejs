@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress ='http://147.84.144.109',
+		serverAddress ='http://localhost',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380',
 
@@ -37,11 +37,11 @@
 				'</li>'
 			].join("")
 		};
-		
+
 
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
-		
+
 		$('.chat-input input').on('keydown', function(e){
 			var key = e.which || e.keyCode;
 			if(key == 13) { handleMessage(); }
@@ -59,7 +59,7 @@
 		$('#nickname-popup .begin').on('click', function(){
 			handleNickname();
 		});
-		
+
 		$('#addroom-popup .input input').on('keydown', function(e){
 			var key = e.which || e.keyCode;
 			if(key == 13) { createRoom(); }
@@ -120,16 +120,16 @@
 			// and sending the nickname for the connected client
 			socket.emit('connect', { nickname: nickname });
 		});
-		
+
 		// after the server created a client for us, the ready event
-		// is fired in the server with our clientId, now we can start 
+		// is fired in the server with our clientId, now we can start
 		socket.on('ready', function(data){
 			// hiding the 'connecting...' message
 			$('.chat-shadow').animate({ 'opacity': 0 }, 200, function(){
 				$(this).hide();
 				$('.chat input').focus();
 			});
-			
+
 			// saving the clientId localy
 			clientId = data.clientId;
 		});
@@ -153,25 +153,25 @@
 		socket.on('chatmessage', function(data){
 			var nickname = data.client.nickname;
 			var message = data.message;
-			
+
 			//display the message in the chat window
 			insertMessage(nickname, message, true, false, false);
 		});
-		
+
 		// when we subscribes to a room, the server sends a list
 		// with the clients in this room
 		socket.on('roomclients', function(data){
-			
+
 			// add the room name to the rooms list
 			addRoom(data.room, false);
 
 			// set the current room
 			setCurrentRoom(data.room);
-			
+
 			// announce a welcome message
 			insertMessage(serverDisplayName, 'Welcome to the room: \'' + data.room + '\'', true, false, true);
 			$('.chat-clients ul').empty();
-			
+
 			// add the clients to the clients list
 			addClient({ nickname: nickname, clientId: clientId }, false, true);
 			for(var i = 0, len = data.clients.length; i < len; i++){
@@ -186,19 +186,19 @@
 				$('.chat input').focus();
 			});
 		});
-		
+
 		// if someone creates a room the server updates us
 		// about it
 		socket.on('addroom', function(data){
 			addRoom(data.room, true);
 		});
-		
+
 		// if one of the room is empty from clients, the server,
 		// destroys it and updates us
 		socket.on('removeroom', function(data){
 			removeRoom(data.room, true);
 		});
-		
+
 		// with this event the server tells us when a client
 		// is connected or disconnected to the current room
 		socket.on('presence', function(data){
@@ -238,7 +238,7 @@
 	// add a client to the clients list
 	function addClient(client, announce, isMe){
 		var $html = $.tmpl(tmplt.client, client);
-		
+
 		// if this is our client, mark him with color
 		if(isMe){
 			$html.addClass('me');
@@ -254,7 +254,7 @@
 	// remove a client from the clients list
 	function removeClient(client, announce){
 		$('.chat-clients ul li[data-clientId="' + client.clientId + '"]').remove();
-		
+
 		// if announce is true, show a message about this room
 		if(announce){
 			insertMessage(serverDisplayName,'User \'' +  client.nickname + '\' has left the room', true, false, true);
@@ -269,11 +269,11 @@
 	function createRoom(){
 		var room = $('#addroom-popup .input input').val().trim();
 		if(room && room.length <= ROOM_MAX_LENGTH && room != currentRoom){
-			
+
 			// show room creating message
 			$('.chat-shadow').show().find('.content').html('Creating room: \'' + room + '\'');
 			$('.chat-shadow').animate({ 'opacity': 1 }, 200);
-			
+
 			// unsubscribe from the current room
 			socket.emit('unsubscribe', { room: currentRoom });
 
@@ -315,7 +315,7 @@
 
 			// send the message to the server with the room name
 			socket.emit('chatmessage', { message: message, room: currentRoom });
-			
+
 			// display the message in the chat window
 			insertMessage(nickname, message, true, true);
 			$('.chat-input input').val('');
@@ -369,16 +369,16 @@
 			}, 1500);
 		}
 	}
-	
+
 	// after selecting a nickname we call this function
 	// in order to init the connection with the server
 	function connect(){
 		// show connecting message
 		$('.chat-shadow .content').html('Connecting...');
-		
+
 		// creating the connection and saving the socket
 		socket = io.connect(serverAddress);
-		
+
 		// now that we have the socket we can bind events to it
 		bindSocketEvents();
 	}
